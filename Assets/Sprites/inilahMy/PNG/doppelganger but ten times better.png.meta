@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3a5db3bcd09a2444f878fed12f25de8d
+guid: 36e03561d63e2824790ddfb05be9d65c
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: npc anomali walk_0
+      name: doppelganger but ten times better_0
       rect:
         serializedVersion: 2
-        x: 41
+        x: 450
         y: 0
-        width: 40
-        height: 54
+        width: 367
+        height: 726
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +124,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: af10f2b07c4bc9642bfa0a5effbade85
-      internalID: -1624098920
+      spriteID: dce0368d13b34b24d99b6d382a1f4b35
+      internalID: -567841277
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: npc anomali walk_1
+      name: doppelganger but ten times better_1
       rect:
         serializedVersion: 2
-        x: 175
+        x: 1755
         y: 0
-        width: 30
-        height: 54
+        width: 300
+        height: 719
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,20 +145,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8dd0d0bb63f73bf46a79f50fd746e20d
-      internalID: -1215375635
+      spriteID: 3c8b697fa8421f849942bfaa9268ff4b
+      internalID: 2132756473
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: npc anomali walk_2
+      name: doppelganger but ten times better_2
       rect:
         serializedVersion: 2
-        x: 306
+        x: 3060
         y: 0
-        width: 26
-        height: 54
+        width: 300
+        height: 726
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,20 +166,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 102079329dc3129499d5864f0c52353c
-      internalID: 16208761
+      spriteID: a8153c2a444dac44690bc5900fe4ac88
+      internalID: -1250566456
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: npc anomali walk_3
+      name: doppelganger but ten times better_3
       rect:
         serializedVersion: 2
-        x: 433
+        x: 4342
         y: 0
-        width: 29
-        height: 54
+        width: 323
+        height: 734
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -187,20 +187,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2e13663a345031e4e95a6623e71813df
-      internalID: -476183231
+      spriteID: 461d5517cb75d364ba1d599ab5eda19f
+      internalID: -86513124
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: npc anomali walk_4
+      name: doppelganger but ten times better_4
       rect:
         serializedVersion: 2
-        x: 559
+        x: 5625
         y: 0
-        width: 33
-        height: 54
+        width: 330
+        height: 734
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -208,20 +208,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fde13fde850a6364fb00ea7e631ab052
-      internalID: 1284713798
+      spriteID: 07dbaf9c73904ed4383e0175a04a0104
+      internalID: -1225900558
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: npc anomali walk_5
+      name: doppelganger but ten times better_5
       rect:
         serializedVersion: 2
-        x: 686
+        x: 6892
         y: 0
-        width: 34
-        height: 54
+        width: 338
+        height: 734
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -229,20 +229,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3fca4aa03aac34e458e36fb71405c621
-      internalID: 403882284
+      spriteID: ff35effaf71059c4ea6083ffaa282ec6
+      internalID: -1463729632
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: npc anomali walk_6
+      name: doppelganger but ten times better_6
       rect:
         serializedVersion: 2
-        x: 814
+        x: 8145
         y: 0
-        width: 35
-        height: 54
+        width: 352
+        height: 726
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -250,20 +250,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5d360d331296ca54497378efa5f7de42
-      internalID: -1143882098
+      spriteID: fa7a1997e43d65f45bd9b5c6211c0eaa
+      internalID: -1557697954
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: npc anomali walk_7
+      name: doppelganger but ten times better_7
       rect:
         serializedVersion: 2
-        x: 943
+        x: 9435
         y: 0
-        width: 30
-        height: 54
+        width: 300
+        height: 719
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -271,20 +271,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4671cbbc73cff5f45bf3f061ccc312de
-      internalID: -496591226
+      spriteID: ca75177ced836cd48a53e67451be2ba5
+      internalID: 1449515839
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: npc anomali walk_8
+      name: doppelganger but ten times better_8
       rect:
         serializedVersion: 2
-        x: 1067
+        x: 10740
         y: 0
-        width: 31
-        height: 54
+        width: 247
+        height: 726
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -292,20 +292,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b0f656d2c02d6744385530d11311727f
-      internalID: -1662950427
+      spriteID: 7118c4f69371c0046b00e2f2711f2a9d
+      internalID: 44203835
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: npc anomali walk_9
+      name: doppelganger but ten times better_9
       rect:
         serializedVersion: 2
-        x: 1193
+        x: 12022
         y: 0
-        width: 34
-        height: 54
+        width: 218
+        height: 734
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -313,20 +313,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: caecfad4d832bde4abb3bb3aa04b9303
-      internalID: -550521071
+      spriteID: 614daa0f7ed7c0443875ff4fb5944c96
+      internalID: -12618187
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: npc anomali walk_10
+      name: doppelganger but ten times better_10
       rect:
         serializedVersion: 2
-        x: 1320
+        x: 13290
         y: 0
-        width: 36
-        height: 54
+        width: 255
+        height: 734
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -334,20 +334,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5647f9abbc599504bac206bea756287c
-      internalID: -79652401
+      spriteID: 8bb991526832a2f448113ba534644cc9
+      internalID: 670881945
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: npc anomali walk_11
+      name: doppelganger but ten times better_11
       rect:
         serializedVersion: 2
-        x: 1447
+        x: 14550
         y: 0
-        width: 38
-        height: 55
+        width: 300
+        height: 734
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -355,8 +355,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fe472fbfde3a31e46818c02deeede908
-      internalID: -2033013922
+      spriteID: f11e82d97303a994e899ad4abbb21ee5
+      internalID: -929694935
       vertices: []
       indices: 
       edges: []
@@ -372,18 +372,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      npc anomali walk_0: -1624098920
-      npc anomali walk_1: -1215375635
-      npc anomali walk_10: -79652401
-      npc anomali walk_11: -2033013922
-      npc anomali walk_2: 16208761
-      npc anomali walk_3: -476183231
-      npc anomali walk_4: 1284713798
-      npc anomali walk_5: 403882284
-      npc anomali walk_6: -1143882098
-      npc anomali walk_7: -496591226
-      npc anomali walk_8: -1662950427
-      npc anomali walk_9: -550521071
+      doppelganger but ten times better_0: -567841277
+      doppelganger but ten times better_1: 2132756473
+      doppelganger but ten times better_10: 670881945
+      doppelganger but ten times better_11: -929694935
+      doppelganger but ten times better_2: -1250566456
+      doppelganger but ten times better_3: -86513124
+      doppelganger but ten times better_4: -1225900558
+      doppelganger but ten times better_5: -1463729632
+      doppelganger but ten times better_6: -1557697954
+      doppelganger but ten times better_7: 1449515839
+      doppelganger but ten times better_8: 44203835
+      doppelganger but ten times better_9: -12618187
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

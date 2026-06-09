@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3a5db3bcd09a2444f878fed12f25de8d
+guid: 9caff79ae14b6074799105bc94c83c59
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,139 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: npc anomali walk_0
+      name: doppelganger_0
       rect:
         serializedVersion: 2
-        x: 41
-        y: 0
-        width: 40
-        height: 54
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: af10f2b07c4bc9642bfa0a5effbade85
-      internalID: -1624098920
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: npc anomali walk_1
-      rect:
-        serializedVersion: 2
-        x: 175
-        y: 0
-        width: 30
-        height: 54
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8dd0d0bb63f73bf46a79f50fd746e20d
-      internalID: -1215375635
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: npc anomali walk_2
-      rect:
-        serializedVersion: 2
-        x: 306
-        y: 0
-        width: 26
-        height: 54
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 102079329dc3129499d5864f0c52353c
-      internalID: 16208761
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: npc anomali walk_3
-      rect:
-        serializedVersion: 2
-        x: 433
-        y: 0
-        width: 29
-        height: 54
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2e13663a345031e4e95a6623e71813df
-      internalID: -476183231
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: npc anomali walk_4
-      rect:
-        serializedVersion: 2
-        x: 559
-        y: 0
-        width: 33
-        height: 54
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fde13fde850a6364fb00ea7e631ab052
-      internalID: 1284713798
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: npc anomali walk_5
-      rect:
-        serializedVersion: 2
-        x: 686
-        y: 0
-        width: 34
-        height: 54
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3fca4aa03aac34e458e36fb71405c621
-      internalID: 403882284
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: npc anomali walk_6
-      rect:
-        serializedVersion: 2
-        x: 814
+        x: 46
         y: 0
         width: 35
-        height: 54
+        height: 72
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -250,20 +124,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5d360d331296ca54497378efa5f7de42
-      internalID: -1143882098
+      spriteID: 03e986d79eac37d4c9984064d4c6d77a
+      internalID: 1027564232
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: npc anomali walk_7
+      name: doppelganger_1
       rect:
         serializedVersion: 2
-        x: 943
+        x: 176
         y: 0
-        width: 30
-        height: 54
+        width: 29
+        height: 71
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -271,20 +145,41 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4671cbbc73cff5f45bf3f061ccc312de
-      internalID: -496591226
+      spriteID: fbf365745b03adc43a1e65134449fa17
+      internalID: 520153165
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: npc anomali walk_8
+      name: doppelganger_2
       rect:
         serializedVersion: 2
-        x: 1067
+        x: 307
+        y: 0
+        width: 28
+        height: 72
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6fa6ae76beb37c24ea702a160d1b881e
+      internalID: 608814563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doppelganger_3
+      rect:
+        serializedVersion: 2
+        x: 435
         y: 0
         width: 31
-        height: 54
+        height: 73
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -292,20 +187,62 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b0f656d2c02d6744385530d11311727f
-      internalID: -1662950427
+      spriteID: 65ab1aa5900f9f44db82f51383df84c3
+      internalID: -1779873946
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: npc anomali walk_9
+      name: doppelganger_4
       rect:
         serializedVersion: 2
-        x: 1193
+        x: 563
+        y: 0
+        width: 32
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab9e7afcfb74b3c4591364ee12b1b79f
+      internalID: 986916205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doppelganger_5
+      rect:
+        serializedVersion: 2
+        x: 690
+        y: 0
+        width: 32
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97772c1a7e4b0f448a5c9c959cd323e3
+      internalID: 1161024899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doppelganger_6
+      rect:
+        serializedVersion: 2
+        x: 815
         y: 0
         width: 34
-        height: 54
+        height: 72
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -313,20 +250,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: caecfad4d832bde4abb3bb3aa04b9303
-      internalID: -550521071
+      spriteID: 294f55fa15b71bf4388a839d107b8ee4
+      internalID: 1052476877
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: npc anomali walk_10
+      name: doppelganger_7
       rect:
         serializedVersion: 2
-        x: 1320
+        x: 944
         y: 0
-        width: 36
-        height: 54
+        width: 29
+        height: 71
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -334,20 +271,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5647f9abbc599504bac206bea756287c
-      internalID: -79652401
+      spriteID: 44eb08c2577b9bd44a812594f33a223c
+      internalID: 822128554
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: npc anomali walk_11
+      name: doppelganger_8
       rect:
         serializedVersion: 2
-        x: 1447
+        x: 1075
         y: 0
-        width: 38
-        height: 55
+        width: 23
+        height: 72
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -355,8 +292,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fe472fbfde3a31e46818c02deeede908
-      internalID: -2033013922
+      spriteID: ce1ce2f8ea173c74384c858d41b9c3f1
+      internalID: 1373344513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doppelganger_9
+      rect:
+        serializedVersion: 2
+        x: 1203
+        y: 0
+        width: 20
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 738b7043526a07d4badb2866f13cea6d
+      internalID: 913002886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doppelganger_10
+      rect:
+        serializedVersion: 2
+        x: 1330
+        y: 0
+        width: 24
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa7849ded817b8a408b975caa9b07462
+      internalID: -745161724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doppelganger_11
+      rect:
+        serializedVersion: 2
+        x: 1456
+        y: 0
+        width: 28
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53488bffcba903d429ed47feeebb2073
+      internalID: -1909315439
       vertices: []
       indices: 
       edges: []
@@ -372,18 +372,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      npc anomali walk_0: -1624098920
-      npc anomali walk_1: -1215375635
-      npc anomali walk_10: -79652401
-      npc anomali walk_11: -2033013922
-      npc anomali walk_2: 16208761
-      npc anomali walk_3: -476183231
-      npc anomali walk_4: 1284713798
-      npc anomali walk_5: 403882284
-      npc anomali walk_6: -1143882098
-      npc anomali walk_7: -496591226
-      npc anomali walk_8: -1662950427
-      npc anomali walk_9: -550521071
+      doppelganger_0: 1027564232
+      doppelganger_1: 520153165
+      doppelganger_10: -745161724
+      doppelganger_11: -1909315439
+      doppelganger_2: 608814563
+      doppelganger_3: -1779873946
+      doppelganger_4: 986916205
+      doppelganger_5: 1161024899
+      doppelganger_6: 1052476877
+      doppelganger_7: 822128554
+      doppelganger_8: 1373344513
+      doppelganger_9: 913002886
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

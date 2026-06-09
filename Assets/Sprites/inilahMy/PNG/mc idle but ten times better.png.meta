@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -108,7 +108,154 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: mc idle but ten times better_0
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 0
+        width: 323
+        height: 1280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 562}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2abbc14576389a549b4357db9a731dc5
+      internalID: -1047698391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mc idle but ten times better_1
+      rect:
+        serializedVersion: 2
+        x: 1765
+        y: 0
+        width: 320
+        height: 1280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 560}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17a046d23cc07f4459a718cbb7fe1c70
+      internalID: 1181140268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mc idle but ten times better_2
+      rect:
+        serializedVersion: 2
+        x: 3043
+        y: 0
+        width: 323
+        height: 720
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 210ac4109d9ecb246b8bdcf8d64ad35f
+      internalID: 915956416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mc idle but ten times better_3
+      rect:
+        serializedVersion: 2
+        x: 4325
+        y: 0
+        width: 319
+        height: 731
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c93afec1bc5abe544b3fd8913a0528a8
+      internalID: 1131618208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mc idle but ten times better_4
+      rect:
+        serializedVersion: 2
+        x: 5603
+        y: 0
+        width: 323
+        height: 1280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 560}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9931abc040af77b4ea724139dee52af6
+      internalID: 1257135210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mc idle but ten times better_5
+      rect:
+        serializedVersion: 2
+        x: 6884
+        y: 0
+        width: 323
+        height: 1280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 560}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06d86124ac15d554d83fae3558b28509
+      internalID: 445591270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mc idle but ten times better_6
+      rect:
+        serializedVersion: 2
+        x: 8166
+        y: 0
+        width: 319
+        height: 1280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 560}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3722e3882fcc60b49b2106d5b17a41c9
+      internalID: -1138092445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +266,14 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      mc idle but ten times better_0: -1047698391
+      mc idle but ten times better_1: 1181140268
+      mc idle but ten times better_2: 915956416
+      mc idle but ten times better_3: 1131618208
+      mc idle but ten times better_4: 1257135210
+      mc idle but ten times better_5: 445591270
+      mc idle but ten times better_6: -1138092445
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
