@@ -4,34 +4,41 @@ using UnityEngine;
 public class NPCWalkRight : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float moveSpeed = 3f; // Kecepatan dibuat sedikit lebih lambat dari player (opsional)
+    public float moveSpeed = 3f; 
 
     private Rigidbody2D rb;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
+    
+    // Variabel untuk mengingat posisi awal
+    private Vector3 startPos; 
 
-    void Start()
+    void Awake()
     {
-        // Mengambil referensi komponen
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        // Karena NPC ini tidak punya idle dan selalu jalan, 
-        // kita set animasi isWalking menjadi true sejak awal
-        animator.SetBool("isWalking", true);
+        // Simpan posisi awal tepat saat game baru di-play
+        startPos = transform.position;
+    }
 
-        // Pastikan sprite menghadap ke kanan (asumsi default sprite menghadap kanan = flipX false)
-        if (spriteRenderer != null)
-        {
-            spriteRenderer.flipX = false;
-        }
+    // Fungsi ini akan dieksekusi otomatis setiap kali objek di-SetActive(true)
+    void OnEnable() 
+    {
+        // Reset posisi ke awal agar tidak nerusin jalan dari level sebelumnya
+        transform.position = startPos;
+        
+        if (animator != null) animator.SetBool("isWalking", true);
+    }
+
+    void Start()
+    {
+        if (spriteRenderer != null) spriteRenderer.flipX = false;
     }
 
     void Update()
     {
-        // Terapkan pergerakan konstan ke sumbu X positif (kanan)
-        // Kecepatan Y dipertahankan untuk gravitasi
         rb.velocity = new Vector2(moveSpeed, rb.velocity.y);
     }
 }
