@@ -29,11 +29,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    [Header("Player & Trigger Settings")]
+    [Header("Player Settings")]
     public Transform player;
     public Vector3 spawnPosition = new Vector3(3.5f, -0.77f, 0f);
-    [Tooltip("Masukkan komponen BoxCollider2D dari TriggerKanan ke sini")]
-    public Collider2D triggerKananCollider;
 
     [Header("Level Settings")]
     public int maxLevel = 6;
@@ -44,19 +42,21 @@ public class GameManager : MonoBehaviour
     private bool isFirstRoom = true; 
     private int consecutiveNormalCount = 0; 
 
-    // Variabel Cycle untuk jaminan NPC
-    private bool hasNPCAppearedThisCycle = false;
-    private int guaranteedNPCLevel = 0;
-
-    [Header("UI Settings")]
+    [Header("UI & Blocker Settings")]
     public CanvasGroup fadeScreen;
     public float fadeDuration = 1f;
+    [Tooltip("Masukkan BoxCollider2D dari TriggerKanan ke sini")]
+    public Collider2D triggerKananCollider;
 
     [Header("Visual Lantai Database")]
     public List<FloorVisual> floorVisuals;
 
     [Header("Anomalies Database")]
     public List<AnomalyData> anomalies;
+
+    // Tracker untuk NPC per Cycle
+    private bool hasNpcSpawnedThisCycle = false;
+    private int npcGroupIndex = -1;
 
     private void Awake()
     {
@@ -66,8 +66,13 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        foreach (AnomalyData data in anomalies)
+        // 1. Simpan posisi awal benda & Cari indeks NPC
+        for (int i = 0; i < anomalies.Count; i++)
         {
+            AnomalyData data = anomalies[i];
+            
+            if (data.isNPC) npcGroupIndex = i; // Simpan posisi NPC di database
+
             if (data.normalObject != null && !data.isNPC) 
                 data.normalStartPos = data.normalObject.transform.position;
             
@@ -84,57 +89,49 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        ResetCycle(); // Mulai cycle pertama
+        currentLevel = maxLevel;
         UpdateFloorVisual();
         RollAnomaly();
-    }
-
-    // Fungsi untuk mereset semua kondisi cycle saat mulai atau saat player salah
-    private void ResetCycle()
-    {
-        currentLevel = maxLevel;
-        isFirstRoom = true;
-        consecutiveNormalCount = 0;
-        hasNPCAppearedThisCycle = false;
-        
-        // Acak di lantai berapa NPC WAJIB muncul (antara lantai maxLevel-1 sampai lantai 2)
-        guaranteedNPCLevel = Random.Range(2, maxLevel); 
-        Debug.Log("System: Cycle Baru dimulai. NPC dijamin akan muncul di Lantai " + guaranteedNPCLevel);
     }
 
     public void CheckChoice(bool wentLeft)
     {
         if (isTransitioning) return;
 
+        // --- LOGIKA LANTAI 1 (EXIT SIGN) ---
         if (currentLevel == 1)
         {
             if (wentLeft) 
             {
-                Debug.Log("GAME CLEAR! Player berhasil keluar. Bersiap ke Main Menu...");
-                // UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
-                return; 
-            }
-            else 
-            {
-                Debug.Log("SALAH! Sudah di pintu keluar kok malah putar balik? Reset!");
-                ResetCycle();
+                Debug.Log("GAME CLEAR! Player berhasil keluar.");
+                return; // Stop eksekusi agar tidak transisi
             }
         }
+        // --- LOGIKA NORMAL (Lantai 6 sampai 2) ---
         else
         {
             if (wentLeft) 
             {
                 if (!isAnomalyActive) { currentLevel--; Debug.Log("BENAR! Maju."); } 
-                else { Debug.Log("SALAH! Ada anomali. Reset!"); ResetCycle(); }
+                else { ResetCycle(); Debug.Log("SALAH! Ada anomali. Reset ke awal!"); }
             }
             else 
             {
                 if (isAnomalyActive) { currentLevel--; Debug.Log("BENAR! Mundur."); } 
-                else { Debug.Log("SALAH! Bersih kok mundur? Reset!"); ResetCycle(); }
+                else { ResetCycle(); Debug.Log("SALAH! Bersih kok mundur? Reset ke awal!"); }
             }
         }
 
         StartCoroutine(TransitionRoutine());
+    }
+
+    // Fungsi khusus untuk mereset seluruh cycle pemain
+    private void ResetCycle()
+    {
+        currentLevel = maxLevel;
+        isFirstRoom = true; // Lantai 6 kembali jadi lantai hafalan normal
+        hasNpcSpawnedThisCycle = false; // Reset Tracker NPC
+        consecutiveNormalCount = 0;
     }
 
     private IEnumerator TransitionRoutine()
@@ -170,7 +167,7 @@ public class GameManager : MonoBehaviour
 
     private void UpdateFloorVisual()
     {
-        // Atur Visual Background & Angka Lantai
+        // Update PNG Lantai
         foreach (FloorVisual floor in floorVisuals)
         {
             if (floor.indikatorLantai != null) floor.indikatorLantai.SetActive(false);
@@ -183,17 +180,13 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // Atur Blokir Tangga Kanan (IsTrigger = false membuat objek menjadi tembok)
+        // LOGIKA BLOCKER: Jika lantai awal atau lantai exit, jadikan Trigger Kanan tembok
         if (triggerKananCollider != null)
         {
             if (currentLevel == maxLevel || currentLevel == 1)
-            {
-                triggerKananCollider.isTrigger = false; 
-            }
+                triggerKananCollider.isTrigger = false; // Tembok (Nge-block player)
             else
-            {
-                triggerKananCollider.isTrigger = true; 
-            }
+                triggerKananCollider.isTrigger = true;  // Trigger normal bisa ditembus
         }
     }
 
@@ -201,18 +194,7 @@ public class GameManager : MonoBehaviour
     {
         if (anomalies == null || anomalies.Count == 0) return;
 
-        // Cari tahu di Index mana letak NPC berada
-        int npcIndex = -1;
-        for (int i = 0; i < anomalies.Count; i++)
-        {
-            if (anomalies[i].isNPC && anomalies[i].anomalyVariants != null && anomalies[i].anomalyVariants.Count > 0)
-            {
-                npcIndex = i;
-                break;
-            }
-        }
-
-        // 1. Matikan objek dan kembalikan posisinya ke titik semula
+        // 1. Matikan dan reset posisi semua barang
         foreach (AnomalyData data in anomalies)
         {
             if (data.normalObject != null)
@@ -236,49 +218,47 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // 2. Tentukan logika anomali
-        bool forceNPC = false;
+        bool forceNpc = false;
 
-        // Jika ini lantai jaminan NPC dan NPC belum pernah muncul
-        if (currentLevel == guaranteedNPCLevel && !hasNPCAppearedThisCycle && npcIndex != -1)
-        {
-            forceNPC = true;
-        }
-
+        // 2. Tentukan status anomali
         if (isFirstRoom)
         {
             isAnomalyActive = false;
             consecutiveNormalCount++;
             isFirstRoom = false; 
         }
-        else if (forceNPC)
-        {
-            isAnomalyActive = true;
-            consecutiveNormalCount = 0;
-            Debug.Log("System: MEMAKSA NPC Anomali muncul sesuai jaminan cycle!");
-        }
-        else if (consecutiveNormalCount >= 2)
-        {
-            isAnomalyActive = true;
-            consecutiveNormalCount = 0; 
-            Debug.Log("System: Memaksa Anomali (Mencegah 3x Normal Beruntun)");
-        }
         else
         {
-            int chance = Random.Range(1, 101); 
-            if (chance % 2 != 0) 
+            // LOGIKA PAKSA NPC (Syarat: Lantai 2, Belum Muncul, dan NPC ada di database)
+            if (currentLevel == 2 && !hasNpcSpawnedThisCycle && npcGroupIndex != -1)
             {
-                isAnomalyActive = true;  
+                isAnomalyActive = true;
+                forceNpc = true;
+                consecutiveNormalCount = 0;
+                Debug.Log("System: Memaksa Anomali NPC (Lantai terakhir sebelum Exit)");
+            }
+            else if (consecutiveNormalCount >= 2)
+            {
+                isAnomalyActive = true;
                 consecutiveNormalCount = 0; 
             }
-            else 
+            else
             {
-                isAnomalyActive = false; 
-                consecutiveNormalCount++;   
+                int chance = Random.Range(1, 101); 
+                if (chance % 2 != 0) 
+                {
+                    isAnomalyActive = true;  
+                    consecutiveNormalCount = 0; 
+                }
+                else 
+                {
+                    isAnomalyActive = false; 
+                    consecutiveNormalCount++;   
+                }
             }
         }
 
-        // 3. Nyalakan objek sesuai hasil kocokan
+        // 3. Eksekusi Visual Anomali/Normal
         if (!isAnomalyActive)
         {
             foreach (AnomalyData data in anomalies)
@@ -288,40 +268,55 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            int randomGrup;
+            // Tentukan mau muncul berapa anomali? (Maksimal 3 atau sesuai total barang yang ada)
+            int maxPossibleAnomalies = Mathf.Min(3, anomalies.Count); 
+            int numToSpawn = Random.Range(1, maxPossibleAnomalies + 1);
 
-            if (forceNPC) 
+            List<int> availableIndices = new List<int>();
+            for (int i = 0; i < anomalies.Count; i++) availableIndices.Add(i);
+
+            List<int> chosenIndices = new List<int>();
+
+            // Jika dipaksa NPC, amankan slot NPC duluan
+            if (forceNpc && npcGroupIndex != -1)
             {
-                randomGrup = npcIndex;
-                hasNPCAppearedThisCycle = true;
-            }
-            else 
-            {
-                randomGrup = Random.Range(0, anomalies.Count);
-                // Jika hasil acak kebetulan memilih NPC secara natural, catat agar jaminan tidak aktif ganda
-                if (randomGrup == npcIndex) hasNPCAppearedThisCycle = true; 
-            }
-            
-            if (anomalies[randomGrup].anomalyVariants == null || anomalies[randomGrup].anomalyVariants.Count == 0)
-            {
-                foreach (AnomalyData data in anomalies)
-                {
-                    if (data.normalObject != null) data.normalObject.SetActive(true);
-                }
-                return;
+                chosenIndices.Add(npcGroupIndex);
+                availableIndices.Remove(npcGroupIndex);
+                numToSpawn--;
             }
 
-            int randomVarian = Random.Range(0, anomalies[randomGrup].anomalyVariants.Count);
+            // Pilih sisa grup anomali secara acak
+            for (int i = 0; i < numToSpawn; i++)
+            {
+                if (availableIndices.Count == 0) break;
+                int rnd = Random.Range(0, availableIndices.Count);
+                chosenIndices.Add(availableIndices[rnd]);
+                availableIndices.RemoveAt(rnd); // Hapus dari antrean biar nggak kepilih dobel
+            }
 
+            // Terapkan ke scene
             for (int i = 0; i < anomalies.Count; i++)
             {
-                if (i == randomGrup)
+                if (chosenIndices.Contains(i))
                 {
-                    if (anomalies[i].anomalyVariants[randomVarian] != null)
-                        anomalies[i].anomalyVariants[randomVarian].SetActive(true);
+                    // Pastikan varian tidak kosong untuk mencegah error
+                    if (anomalies[i].anomalyVariants == null || anomalies[i].anomalyVariants.Count == 0)
+                    {
+                        if (anomalies[i].normalObject != null) anomalies[i].normalObject.SetActive(true);
+                    }
+                    else
+                    {
+                        int randomVarian = Random.Range(0, anomalies[i].anomalyVariants.Count);
+                        if (anomalies[i].anomalyVariants[randomVarian] != null)
+                            anomalies[i].anomalyVariants[randomVarian].SetActive(true);
+
+                        // Tandai NPC sudah muncul
+                        if (i == npcGroupIndex) hasNpcSpawnedThisCycle = true;
+                    }
                 }
                 else
                 {
+                    // Barang yang tidak terpilih tetap normal
                     if (anomalies[i].normalObject != null)
                         anomalies[i].normalObject.SetActive(true);
                 }
