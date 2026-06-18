@@ -92,6 +92,9 @@ public class GameManager : MonoBehaviour
         currentLevel = maxLevel;
         UpdateFloorVisual();
         RollAnomaly();
+
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayBGM(AudioManager.Instance.bgmInGame);
     }
 
     public void CheckChoice(bool wentLeft)
@@ -146,6 +149,9 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
         fadeScreen.alpha = 1f;
+
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxGantiLantai);
 
         yield return new WaitForSeconds(0.2f); 
 

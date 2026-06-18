@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(Animator))]
+[RequireComponent(typeof(Rigidbody2D), typeof(Animator), typeof(AudioSource))]
 public class NPCWalkRight : MonoBehaviour
 {
     [Header("Movement Settings")]
@@ -9,8 +9,8 @@ public class NPCWalkRight : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
+    private AudioSource audioSource; // Tambahan komponen Audio
     
-    // Variabel untuk mengingat posisi awal
     private Vector3 startPos; 
 
     void Awake()
@@ -18,18 +18,30 @@ public class NPCWalkRight : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        audioSource = GetComponent<AudioSource>(); // Mengambil referensi AudioSource
 
-        // Simpan posisi awal tepat saat game baru di-play
         startPos = transform.position;
     }
 
-    // Fungsi ini akan dieksekusi otomatis setiap kali objek di-SetActive(true)
     void OnEnable() 
     {
-        // Reset posisi ke awal agar tidak nerusin jalan dari level sebelumnya
         transform.position = startPos;
         
-        if (animator != null) animator.SetBool("isWalking", true);
+        // --- LOGIKA AUDIO LANGKAH KAKI NPC ---
+        // Play suara otomatis setiap kali NPC dimunculkan ke layar
+        if (audioSource != null && !audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
+    }
+
+    void OnDisable()
+    {
+        // Matikan suara secara paksa saat NPC disembunyikan (saat pindah lantai)
+        if (audioSource != null)
+        {
+            audioSource.Stop();
+        }
     }
 
     void Start()
