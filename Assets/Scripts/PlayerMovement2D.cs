@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
-    private AudioSource audioSource; // Tambahan komponen Audio
+    private AudioSource audioSource; 
     private bool isFacingRight = true;
 
     void Start()
@@ -17,43 +17,39 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        audioSource = GetComponent<AudioSource>(); // Mengambil referensi AudioSource
+        audioSource = GetComponent<AudioSource>(); 
     }
 
     void Update()
     {
+        // --- LOGIKA "LAMPU MERAH" MAIN MENU ---
+        if (GameManager.Instance != null && !GameManager.Instance.isGameStarted)
+        {
+            // Paksa player masuk mode diam dan hentikan suara langkah
+            animator.SetBool("isWalking", false);
+            rb.velocity = new Vector2(0, rb.velocity.y); // Biarkan Y tetap untuk gravitasi
+            if (audioSource.isPlaying) audioSource.Stop();
+            return; // Stop eksekusi script di sini sampai tombol Play ditekan
+        }
+
+        // --- LOGIKA NORMAL (Saat Game Berjalan) ---
         float moveInput = Input.GetAxisRaw("Horizontal");
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
 
         bool isWalking = moveInput != 0;
         animator.SetBool("isWalking", isWalking);
 
-        // --- LOGIKA AUDIO LANGKAH KAKI PLAYER ---
         if (isWalking)
         {
-            // Jika sedang jalan tapi suara belum berbunyi, putar suaranya
-            if (!audioSource.isPlaying)
-            {
-                audioSource.Play();
-            }
+            if (!audioSource.isPlaying) audioSource.Play();
         }
         else
         {
-            // Jika berhenti jalan tapi suara masih berbunyi, hentikan suaranya
-            if (audioSource.isPlaying)
-            {
-                audioSource.Stop();
-            }
+            if (audioSource.isPlaying) audioSource.Stop();
         }
 
-        if (moveInput > 0 && !isFacingRight)
-        {
-            Flip();
-        }
-        else if (moveInput < 0 && isFacingRight)
-        {
-            Flip();
-        }
+        if (moveInput > 0 && !isFacingRight) Flip();
+        else if (moveInput < 0 && isFacingRight) Flip();
     }
 
     private void Flip()

@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    public bool isGameStarted = false;
+
     [Header("Player Settings")]
     public Transform player;
     public Vector3 spawnPosition = new Vector3(3.5f, -0.77f, 0f);
