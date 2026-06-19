@@ -38,11 +38,11 @@ public class NPCWalkRight : MonoBehaviour
 
     void Update()
     {
-        // --- LOGIKA "LAMPU MERAH" MAIN MENU ---
-        if (GameManager.Instance != null && !GameManager.Instance.isGameStarted)
+        // --- LOGIKA "LAMPU MERAH" & PAUSE MENU ---
+        if (GameManager.Instance != null && (!GameManager.Instance.isGameStarted || GameManager.Instance.isPaused))
         {
-            if (animator != null) animator.SetBool("isWalking", false); // Matikan animasi jalan
-            rb.velocity = new Vector2(0, rb.velocity.y); // Rem mendadak
+            if (animator != null) animator.SetBool("isWalking", false);
+            rb.velocity = new Vector2(0, rb.velocity.y); 
             if (audioSource != null && audioSource.isPlaying) audioSource.Stop();
             return;
         }

@@ -72,9 +72,10 @@ public class MainMenuController : MonoBehaviour
         menuPanel.SetActive(false);
         gameObject.SetActive(false); 
         
+        // --- GANTI BAGIAN INI ---
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.isGameStarted = true;
+            GameManager.Instance.StartGameplay(); // Memanggil fungsi dari GameManager
         }
 
         if (AudioManager.Instance != null && AudioManager.Instance.bgmInGame != null)

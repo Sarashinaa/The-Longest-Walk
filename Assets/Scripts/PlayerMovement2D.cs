@@ -22,14 +22,13 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        // --- LOGIKA "LAMPU MERAH" MAIN MENU ---
-        if (GameManager.Instance != null && !GameManager.Instance.isGameStarted)
+        // --- LOGIKA "LAMPU MERAH" & PAUSE MENU ---
+        if (GameManager.Instance != null && (!GameManager.Instance.isGameStarted || GameManager.Instance.isPaused))
         {
-            // Paksa player masuk mode diam dan hentikan suara langkah
             animator.SetBool("isWalking", false);
-            rb.velocity = new Vector2(0, rb.velocity.y); // Biarkan Y tetap untuk gravitasi
+            rb.velocity = new Vector2(0, rb.velocity.y); 
             if (audioSource.isPlaying) audioSource.Stop();
-            return; // Stop eksekusi script di sini sampai tombol Play ditekan
+            return; 
         }
 
         // --- LOGIKA NORMAL (Saat Game Berjalan) ---
