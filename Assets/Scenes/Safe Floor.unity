@@ -6362,7 +6362,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 1378351979}
     m_SelectOnDown: {fileID: 28405764}
@@ -6393,9 +6393,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 605006320}
-        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
-        m_MethodName: OnClickQuit
+      - m_Target: {fileID: 2128212271}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: QuitToMainMenuFromPause
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
