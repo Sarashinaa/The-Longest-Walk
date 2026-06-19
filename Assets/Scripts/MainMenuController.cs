@@ -10,10 +10,9 @@ public class MainMenuController : MonoBehaviour
     public GameObject settingsPanel;
     public GameObject creditsPanel;
 
-    [Tooltip("Slider pengatur volume di panel Settings")]
+    [Header("Game Components")]
+    public PlayerMovement playerMovement;
     public Slider volumeSlider;
-    
-    [Tooltip("Video Player yang ada di panel Credits")]
     public VideoPlayer creditsVideoPlayer;
 
     [Header("Navigation Support")]
@@ -22,6 +21,8 @@ public class MainMenuController : MonoBehaviour
 
     void Start()
     {
+        if (playerMovement != null) playerMovement.enabled = false;
+
         menuPanel.SetActive(true);
         settingsPanel.SetActive(false);
         creditsPanel.SetActive(false);
@@ -40,13 +41,32 @@ public class MainMenuController : MonoBehaviour
         }
     }
 
+    // --- FITUR BARU: Deteksi Tombol Escape ---
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            // Jika lagi buka Settings, tutup pakai fungsi OnClickCloseSettings
+            if (settingsPanel.activeInHierarchy)
+            {
+                OnClickCloseSettings();
+            }
+            // Jika lagi nonton Credits, tutup paksa
+            else if (creditsPanel.activeInHierarchy)
+            {
+                CloseCreditsWithSound();
+            }
+        }
+    }
+
+    // --- FUNGSI TOMBOL ---
+
     public void OnClickPlay()
     {
         PlayConfirmSound();
         menuPanel.SetActive(false);
         gameObject.SetActive(false); 
         
-        // --- INI KUNCINYA: Memberi Lampu Hijau ke Seluruh Game ---
         if (GameManager.Instance != null)
         {
             GameManager.Instance.isGameStarted = true;
@@ -77,19 +97,63 @@ public class MainMenuController : MonoBehaviour
         creditsVideoPlayer.Play();
     }
 
+    // Fungsi dipanggil saat mencet ESC (Keluar paksa + SFX)
+    private void CloseCreditsWithSound()
+    {
+        PlayConfirmSound();
+        StopAndCloseCreditsPanel();
+    }
+
+    // Fungsi dipanggil otomatis saat video tamat (Tanpa SFX tambahan)
     private void EndCredits(VideoPlayer vp)
     {
+        StopAndCloseCreditsPanel();
+    }
+
+    // Fungsi inti untuk menghentikan video dan balik ke menu
+    private void StopAndCloseCreditsPanel()
+    {
+        if (creditsVideoPlayer != null && creditsVideoPlayer.isPlaying)
+        {
+            creditsVideoPlayer.Stop();
+        }
         creditsPanel.SetActive(false);
         menuPanel.SetActive(true);
         EventSystem.current.SetSelectedGameObject(playButton);
+    }
+
+   // saat balik ke Main Menu, keyboard otomatis milih tombol Play lagi
+    // Fungsi ini dipanggil otomatis setiap kali MainMenuCanvas dinyalakan
+    private void OnEnable()
+    {
+        // 1. Bangunkan paksa panel menu utama
+        if (menuPanel != null) menuPanel.SetActive(true);
+        
+        // 2. Pastikan panel lain tertutup agar tidak numpuk
+        if (settingsPanel != null) settingsPanel.SetActive(false);
+        if (creditsPanel != null) creditsPanel.SetActive(false);
+
+        // 3. Kembalikan fokus keyboard ke tombol Play
+        if (playButton != null && EventSystem.current != null)
+        {
+            EventSystem.current.SetSelectedGameObject(playButton);
+        }
     }
 
     public void OnClickQuit()
     {
         PlayConfirmSound();
         Debug.Log("Keluar dari Game...");
-        Application.Quit();
+
+        // Kode ajaib: Jika di editor matikan Play Mode, jika sudah di-build keluar dari aplikasi
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
     }
+
+    // --- FUNGSI UTILITAS ---
 
     private void SetMasterVolume(float volume)
     {

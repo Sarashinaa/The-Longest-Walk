@@ -50,13 +50,20 @@ public class GameManager : MonoBehaviour
     [Tooltip("Masukkan BoxCollider2D dari TriggerKanan ke sini")]
     public Collider2D triggerKananCollider;
 
+    [Header("Ending Settings")]
+    [Tooltip("Masukkan MainMenuCanvas agar bisa dihidupkan lagi")]
+    public GameObject mainMenuCanvas;
+    [Tooltip("Masukkan objek Image/Teks Congratulation di sini")]
+    public GameObject congratulationsImage;
+    [Tooltip("Audio kemenangan yang diputar bersamaan dengan layar hitam")]
+    public AudioClip winAudio;
+
     [Header("Visual Lantai Database")]
     public List<FloorVisual> floorVisuals;
 
     [Header("Anomalies Database")]
     public List<AnomalyData> anomalies;
 
-    // Tracker untuk NPC per Cycle
     private bool hasNpcSpawnedThisCycle = false;
     private int npcGroupIndex = -1;
 
@@ -68,12 +75,11 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        // 1. Simpan posisi awal benda & Cari indeks NPC
         for (int i = 0; i < anomalies.Count; i++)
         {
             AnomalyData data = anomalies[i];
             
-            if (data.isNPC) npcGroupIndex = i; // Simpan posisi NPC di database
+            if (data.isNPC) npcGroupIndex = i; 
 
             if (data.normalObject != null && !data.isNPC) 
                 data.normalStartPos = data.normalObject.transform.position;
@@ -95,7 +101,7 @@ public class GameManager : MonoBehaviour
         UpdateFloorVisual();
         RollAnomaly();
 
-        if (AudioManager.Instance != null)
+        if (AudioManager.Instance != null && AudioManager.Instance.bgmInGame != null)
             AudioManager.Instance.PlayBGM(AudioManager.Instance.bgmInGame);
     }
 
@@ -108,8 +114,9 @@ public class GameManager : MonoBehaviour
         {
             if (wentLeft) 
             {
-                Debug.Log("GAME CLEAR! Player berhasil keluar.");
-                return; // Stop eksekusi agar tidak transisi
+                Debug.Log("GAME CLEAR! Memulai Sequence Ending...");
+                StartCoroutine(EndingRoutine());
+                return; 
             }
         }
         // --- LOGIKA NORMAL (Lantai 6 sampai 2) ---
@@ -130,12 +137,11 @@ public class GameManager : MonoBehaviour
         StartCoroutine(TransitionRoutine());
     }
 
-    // Fungsi khusus untuk mereset seluruh cycle pemain
     private void ResetCycle()
     {
         currentLevel = maxLevel;
-        isFirstRoom = true; // Lantai 6 kembali jadi lantai hafalan normal
-        hasNpcSpawnedThisCycle = false; // Reset Tracker NPC
+        isFirstRoom = true; 
+        hasNpcSpawnedThisCycle = false; 
         consecutiveNormalCount = 0;
     }
 
@@ -152,7 +158,7 @@ public class GameManager : MonoBehaviour
         }
         fadeScreen.alpha = 1f;
 
-        if (AudioManager.Instance != null)
+        if (AudioManager.Instance != null && AudioManager.Instance.sfxGantiLantai != null)
             AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxGantiLantai);
 
         yield return new WaitForSeconds(0.2f); 
@@ -173,9 +179,67 @@ public class GameManager : MonoBehaviour
         isTransitioning = false;
     }
 
+    // --- COROUTINE KHUSUS ENDING ---
+    private IEnumerator EndingRoutine()
+    {
+        isTransitioning = true;
+
+        // 1. Matikan background music saat ini (Biar dramatis)
+        if (AudioManager.Instance != null && AudioManager.Instance.bgmSource != null)
+        {
+            AudioManager.Instance.bgmSource.Stop();
+        }
+
+        // 2. Fade Out perlahan ke Layar Hitam Pekat
+        float timer = 0f;
+        while (timer < fadeDuration)
+        {
+            timer += Time.deltaTime;
+            fadeScreen.alpha = Mathf.Lerp(0f, 1f, timer / fadeDuration);
+            yield return null;
+        }
+        fadeScreen.alpha = 1f;
+
+        // 3. Munculkan PNG "Congratulation" & Putar Audio
+        if (congratulationsImage != null) congratulationsImage.SetActive(true);
+        
+        float waitTime = 4f; // Waktu tunggu bawaan jika tidak ada audio
+        
+        if (winAudio != null && AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(winAudio);
+            waitTime = winAudio.length; // Otomatis nunggu sesuai durasi lagu/suara
+        }
+
+        // 4. Jeda sistem selama durasi audio kemenangan berputar
+        yield return new WaitForSeconds(waitTime + 0.5f); // Ekstra 0.5 detik biar gak terlalu mendadak
+
+        // 5. Matikan PNG Congratulation
+        if (congratulationsImage != null) congratulationsImage.SetActive(false);
+
+        // 6. Reset Game State ke Lantai 6
+        ResetCycle();
+        player.position = spawnPosition;
+        UpdateFloorVisual();
+        RollAnomaly();
+
+        // 7. Kembalikan kontrol ke Main Menu
+        isGameStarted = false; // Lampu merah untuk Player dan NPC
+        if (mainMenuCanvas != null) mainMenuCanvas.SetActive(true);
+        
+        // Terangkan layar kembali agar Main Menu terlihat
+        fadeScreen.alpha = 0f;
+        isTransitioning = false;
+
+        // Putar ulang BGM Main Menu jika punya (Opsional)
+        if (AudioManager.Instance != null && AudioManager.Instance.bgmMainMenu != null)
+        {
+            AudioManager.Instance.PlayBGM(AudioManager.Instance.bgmMainMenu);
+        }
+    }
+
     private void UpdateFloorVisual()
     {
-        // Update PNG Lantai
         foreach (FloorVisual floor in floorVisuals)
         {
             if (floor.indikatorLantai != null) floor.indikatorLantai.SetActive(false);
@@ -188,13 +252,12 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // LOGIKA BLOCKER: Jika lantai awal atau lantai exit, jadikan Trigger Kanan tembok
         if (triggerKananCollider != null)
         {
             if (currentLevel == maxLevel || currentLevel == 1)
-                triggerKananCollider.isTrigger = false; // Tembok (Nge-block player)
+                triggerKananCollider.isTrigger = false; 
             else
-                triggerKananCollider.isTrigger = true;  // Trigger normal bisa ditembus
+                triggerKananCollider.isTrigger = true;  
         }
     }
 
@@ -229,7 +292,12 @@ public class GameManager : MonoBehaviour
         bool forceNpc = false;
 
         // 2. Tentukan status anomali
-        if (isFirstRoom)
+        if (currentLevel == 1)
+        {
+            // LOGIKA BARU: Jika di Lantai 1 (Exit), larang keras ada anomali!
+            isAnomalyActive = false;
+        }
+        else if (isFirstRoom)
         {
             isAnomalyActive = false;
             consecutiveNormalCount++;
@@ -237,13 +305,11 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            // LOGIKA PAKSA NPC (Syarat: Lantai 2, Belum Muncul, dan NPC ada di database)
             if (currentLevel == 2 && !hasNpcSpawnedThisCycle && npcGroupIndex != -1)
             {
                 isAnomalyActive = true;
                 forceNpc = true;
                 consecutiveNormalCount = 0;
-                Debug.Log("System: Memaksa Anomali NPC (Lantai terakhir sebelum Exit)");
             }
             else if (consecutiveNormalCount >= 2)
             {
@@ -271,12 +337,14 @@ public class GameManager : MonoBehaviour
         {
             foreach (AnomalyData data in anomalies)
             {
+                // LOGIKA BARU: Cegah NPC normal muncul di Lantai 1
+                if (currentLevel == 1 && data.isNPC) continue; 
+
                 if (data.normalObject != null) data.normalObject.SetActive(true);
             }
         }
         else
         {
-            // Tentukan mau muncul berapa anomali? (Maksimal 3 atau sesuai total barang yang ada)
             int maxPossibleAnomalies = Mathf.Min(3, anomalies.Count); 
             int numToSpawn = Random.Range(1, maxPossibleAnomalies + 1);
 
@@ -285,7 +353,6 @@ public class GameManager : MonoBehaviour
 
             List<int> chosenIndices = new List<int>();
 
-            // Jika dipaksa NPC, amankan slot NPC duluan
             if (forceNpc && npcGroupIndex != -1)
             {
                 chosenIndices.Add(npcGroupIndex);
@@ -293,21 +360,18 @@ public class GameManager : MonoBehaviour
                 numToSpawn--;
             }
 
-            // Pilih sisa grup anomali secara acak
             for (int i = 0; i < numToSpawn; i++)
             {
                 if (availableIndices.Count == 0) break;
                 int rnd = Random.Range(0, availableIndices.Count);
                 chosenIndices.Add(availableIndices[rnd]);
-                availableIndices.RemoveAt(rnd); // Hapus dari antrean biar nggak kepilih dobel
+                availableIndices.RemoveAt(rnd); 
             }
 
-            // Terapkan ke scene
             for (int i = 0; i < anomalies.Count; i++)
             {
                 if (chosenIndices.Contains(i))
                 {
-                    // Pastikan varian tidak kosong untuk mencegah error
                     if (anomalies[i].anomalyVariants == null || anomalies[i].anomalyVariants.Count == 0)
                     {
                         if (anomalies[i].normalObject != null) anomalies[i].normalObject.SetActive(true);
@@ -318,17 +382,73 @@ public class GameManager : MonoBehaviour
                         if (anomalies[i].anomalyVariants[randomVarian] != null)
                             anomalies[i].anomalyVariants[randomVarian].SetActive(true);
 
-                        // Tandai NPC sudah muncul
                         if (i == npcGroupIndex) hasNpcSpawnedThisCycle = true;
                     }
                 }
                 else
                 {
-                    // Barang yang tidak terpilih tetap normal
                     if (anomalies[i].normalObject != null)
                         anomalies[i].normalObject.SetActive(true);
                 }
             }
         }
+    }
+
+    // ==========================================
+    //         --- JUMPSCARE & MATI ---
+    // ==========================================
+    
+    public void TriggerJumpscareReset(AudioClip npcAttackAudio)
+    {
+        if (isTransitioning) return;
+        StartCoroutine(JumpscareRoutine(npcAttackAudio));
+    }
+
+    private IEnumerator JumpscareRoutine(AudioClip npcAttackAudio)
+    {
+        isTransitioning = true;
+
+        // 1. Putar Audio Teriak (Player) dan Audio Serangan (NPC) berbarengan
+        if (AudioManager.Instance != null)
+        {
+            if (AudioManager.Instance.sfxAnomaliTeriak != null)
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxAnomaliTeriak);
+                
+            if (npcAttackAudio != null)
+                AudioManager.Instance.PlaySFX(npcAttackAudio);
+        }
+
+        // 2. FADE OUT CEPAT (3x lebih cepat dari transisi pintu normal)
+        float fastFadeDuration = fadeDuration / 3f;
+        float timer = 0f;
+        while (timer < fastFadeDuration)
+        {
+            timer += Time.deltaTime;
+            fadeScreen.alpha = Mathf.Lerp(0f, 1f, timer / fastFadeDuration);
+            yield return null;
+        }
+        fadeScreen.alpha = 1f;
+
+        // 3. Jeda dramatis di layar hitam pekat sambil dengerin sisa suara
+        yield return new WaitForSeconds(1.5f);
+
+        // 4. RESET GAME KEMBALI KE LANTAI 6
+        Debug.Log("Player Mati Tertabrak Anomali! Reset ke awal.");
+        ResetCycle();
+        player.position = spawnPosition;
+        UpdateFloorVisual();
+        RollAnomaly();
+
+        // 5. FADE IN (Layar kembali terang dengan kecepatan normal)
+        timer = 0f;
+        while (timer < fadeDuration)
+        {
+            timer += Time.deltaTime;
+            fadeScreen.alpha = Mathf.Lerp(1f, 0f, timer / fadeDuration);
+            yield return null;
+        }
+        fadeScreen.alpha = 0f;
+
+        isTransitioning = false;
     }
 }
