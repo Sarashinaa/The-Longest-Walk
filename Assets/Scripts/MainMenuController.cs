@@ -39,6 +39,11 @@ public class MainMenuController : MonoBehaviour
         {
             creditsVideoPlayer.loopPointReached += EndCredits;
         }
+
+        if (AudioManager.Instance != null && AudioManager.Instance.bgmMainMenu != null)
+        {
+            AudioManager.Instance.PlayBGM(AudioManager.Instance.bgmMainMenu);
+        }
     }
 
     // --- FITUR BARU: Deteksi Tombol Escape ---
@@ -70,6 +75,11 @@ public class MainMenuController : MonoBehaviour
         if (GameManager.Instance != null)
         {
             GameManager.Instance.isGameStarted = true;
+        }
+
+        if (AudioManager.Instance != null && AudioManager.Instance.bgmInGame != null)
+        {
+            AudioManager.Instance.PlayBGM(AudioManager.Instance.bgmInGame);
         }
     }
 

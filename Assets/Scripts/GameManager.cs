@@ -101,8 +101,8 @@ public class GameManager : MonoBehaviour
         UpdateFloorVisual();
         RollAnomaly();
 
-        if (AudioManager.Instance != null && AudioManager.Instance.bgmInGame != null)
-            AudioManager.Instance.PlayBGM(AudioManager.Instance.bgmInGame);
+        // if (AudioManager.Instance != null && AudioManager.Instance.bgmInGame != null)
+        //     AudioManager.Instance.PlayBGM(AudioManager.Instance.bgmInGame);
     }
 
     public void CheckChoice(bool wentLeft)
