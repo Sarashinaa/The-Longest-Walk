@@ -44,6 +44,23 @@ public class MainMenuController : MonoBehaviour
         {
             AudioManager.Instance.PlayBGM(AudioManager.Instance.bgmMainMenu);
         }
+
+        // --- SISTEM OTOMATIS PATH VIDEO WINDOWS & WEBGL ---
+        if (creditsVideoPlayer != null)
+        {
+            // Ubah source menjadi URL agar WebGL bisa membaca
+            creditsVideoPlayer.source = VideoSource.Url;
+            
+            // Menggabungkan path StreamingAssets dengan nama file video kamu
+            string videoPath = System.IO.Path.Combine(Application.streamingAssetsPath, "CreditsSceneNoBG.mp4");
+            
+            creditsVideoPlayer.url = videoPath;
+        }
+
+        if (AudioManager.Instance != null && AudioManager.Instance.bgmMainMenu != null)
+        {
+            AudioManager.Instance.PlayBGM(AudioManager.Instance.bgmMainMenu);
+        }
     }
 
     // --- FITUR BARU: Deteksi Tombol Escape ---
@@ -135,20 +152,39 @@ public class MainMenuController : MonoBehaviour
 
    // saat balik ke Main Menu, keyboard otomatis milih tombol Play lagi
     // Fungsi ini dipanggil otomatis setiap kali MainMenuCanvas dinyalakan
+    // --- UPDATE SCRIPT YANG SUDAH ADA ---
+    private bool playCreditsDirectly = false; // Penanda apakah masuk dari ending
+
     private void OnEnable()
     {
-        // 1. Bangunkan paksa panel menu utama
-        if (menuPanel != null) menuPanel.SetActive(true);
-        
-        // 2. Pastikan panel lain tertutup agar tidak numpuk
-        if (settingsPanel != null) settingsPanel.SetActive(false);
-        if (creditsPanel != null) creditsPanel.SetActive(false);
-
-        // 3. Kembalikan fokus keyboard ke tombol Play
-        if (playButton != null && EventSystem.current != null)
+        if (playCreditsDirectly)
         {
-            EventSystem.current.SetSelectedGameObject(playButton);
+            // Jika baru tamat, langsung setel video credits dan sembunyikan menu utama
+            if (menuPanel != null) menuPanel.SetActive(false);
+            if (settingsPanel != null) settingsPanel.SetActive(false);
+            if (creditsPanel != null) creditsPanel.SetActive(true);
+            if (creditsVideoPlayer != null) creditsVideoPlayer.Play();
+            
+            playCreditsDirectly = false; // Reset kembali ke normal
         }
+        else
+        {
+            // Kondisi normal saat game baru dibuka pertama kali atau setelah credits selesai
+            if (menuPanel != null) menuPanel.SetActive(true);
+            if (settingsPanel != null) settingsPanel.SetActive(false);
+            if (creditsPanel != null) creditsPanel.SetActive(false);
+
+            if (playButton != null && EventSystem.current != null)
+            {
+                EventSystem.current.SetSelectedGameObject(playButton);
+            }
+        }
+    }
+
+    public void StartCreditsFromEnding()
+    {
+        playCreditsDirectly = true;
+        gameObject.SetActive(true); // Menyalakan Canvas Main Menu
     }
 
     public void OnClickQuit()

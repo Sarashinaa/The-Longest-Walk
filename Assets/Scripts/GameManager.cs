@@ -250,34 +250,77 @@ public class GameManager : MonoBehaviour
     private IEnumerator EndingRoutine()
     {
         isTransitioning = true;
-        if (AudioManager.Instance != null && AudioManager.Instance.bgmSource != null) AudioManager.Instance.bgmSource.Stop();
+        
+        // 1. Matikan background music ingame saat ini
+        if (AudioManager.Instance != null && AudioManager.Instance.bgmSource != null) 
+            AudioManager.Instance.bgmSource.Stop();
 
+        // 2. Fade Out perlahan ke Layar Hitam Pekat
         float timer = 0f;
-        while (timer < fadeDuration) { timer += Time.deltaTime; fadeScreen.alpha = Mathf.Lerp(0f, 1f, timer / fadeDuration); yield return null; }
+        while (timer < fadeDuration) 
+        { 
+            timer += Time.deltaTime; 
+            fadeScreen.alpha = Mathf.Lerp(0f, 1f, timer / fadeDuration); 
+            yield return null; 
+        }
         fadeScreen.alpha = 1f;
 
+        // 3. Munculkan PNG "Congratulation" & Putar Audio Menang
         if (congratulationsImage != null) congratulationsImage.SetActive(true);
         
         float waitTime = 4f; 
         if (winAudio != null && AudioManager.Instance != null) { AudioManager.Instance.PlaySFX(winAudio); waitTime = winAudio.length; }
 
+        // Jeda selama durasi audio kemenangan berputar
         yield return new WaitForSeconds(waitTime + 0.5f); 
 
+        // 4. Matikan PNG Congratulation (Layar tetap hitam pekat)
         if (congratulationsImage != null) congratulationsImage.SetActive(false);
 
+        // 5. Reset seluruh data permainan ke Lantai 6 secara rahasia
         ResetCycle();
         player.position = spawnPosition;
         UpdateFloorVisual();
         RollAnomaly();
 
         isGameStarted = false; 
-        if (pauseButtonUI != null) pauseButtonUI.SetActive(false); // Sembunyikan pause di ending
-        if (mainMenuCanvas != null) mainMenuCanvas.SetActive(true);
-        
-        fadeScreen.alpha = 0f;
-        isTransitioning = false;
+        if (pauseButtonUI != null) pauseButtonUI.SetActive(false); 
 
-        if (AudioManager.Instance != null && AudioManager.Instance.bgmMainMenu != null) AudioManager.Instance.PlayBGM(AudioManager.Instance.bgmMainMenu);
+        // =======================================================
+        // --- LOGIKA BARU: MEMULAI CREDITS SCENE & BGM MENU ---
+        // =======================================================
+
+        // 6. Putar BGM Main Menu SEKARANG (menjadi musik latar credits scene)
+        if (AudioManager.Instance != null && AudioManager.Instance.bgmMainMenu != null)
+        {
+            AudioManager.Instance.PlayBGM(AudioManager.Instance.bgmMainMenu);
+        }
+
+        // 7. Perintahkan Main Menu Controller untuk langsung memutar Credits
+        if (mainMenuCanvas != null)
+        {
+            MainMenuController menuCtrl = mainMenuCanvas.GetComponent<MainMenuController>();
+            if (menuCtrl != null)
+            {
+                menuCtrl.StartCreditsFromEnding();
+            }
+            else
+            {
+                mainMenuCanvas.SetActive(true); // Fallback safe check
+            }
+        }
+        
+        // 8. Buka tirai hitam (Fade In) agar video credits-nya terlihat oleh player
+        timer = 0f;
+        while (timer < fadeDuration) 
+        { 
+            timer += Time.deltaTime; 
+            fadeScreen.alpha = Mathf.Lerp(1f, 0f, timer / fadeDuration); 
+            yield return null; 
+        }
+        fadeScreen.alpha = 0f;
+
+        isTransitioning = false;
     }
 
     public void TriggerJumpscareReset(AudioClip npcAttackAudio)
