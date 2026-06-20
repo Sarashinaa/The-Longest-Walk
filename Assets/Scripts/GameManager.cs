@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviour
 
     private bool hasNpcSpawnedThisCycle = false;
     private int npcGroupIndex = -1;
+    private List<int> recentlyUsedAnomalies = new List<int>(); // Mengingat anomali yang baru muncul
 
     private void Awake()
     {
@@ -221,6 +222,7 @@ public class GameManager : MonoBehaviour
         isFirstRoom = true; 
         hasNpcSpawnedThisCycle = false; 
         consecutiveNormalCount = 0;
+        recentlyUsedAnomalies.Clear();
     }
 
     private IEnumerator TransitionRoutine()
@@ -330,6 +332,7 @@ public class GameManager : MonoBehaviour
     private void RollAnomaly()
     {
         if (anomalies == null || anomalies.Count == 0) return;
+        
         foreach (AnomalyData data in anomalies)
         {
             if (data.normalObject != null)
@@ -372,14 +375,53 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            int maxPossibleAnomalies = Mathf.Min(3, anomalies.Count); 
+            // --- SISTEM ANTI-REPETISI (SHUFFLE BAG) DIMULAI DI SINI ---
+            int maxPossibleAnomalies = Mathf.Min(4, anomalies.Count); // Maksimal 4 anomali sekaligus
             int numToSpawn = Random.Range(1, maxPossibleAnomalies + 1);
-            List<int> availableIndices = new List<int>(); for (int i = 0; i < anomalies.Count; i++) availableIndices.Add(i);
+            
+            List<int> availableIndices = new List<int>(); 
+            
+            // Masukkan barang HANYA jika belum pernah muncul baru-baru ini
+            for (int i = 0; i < anomalies.Count; i++) 
+            {
+                if (!recentlyUsedAnomalies.Contains(i)) 
+                {
+                    availableIndices.Add(i);
+                }
+            }
+
+            // Kalau stok barang yang belum muncul tinggal sedikit (atau habis), reset ingatan!
+            if (availableIndices.Count <= 2) 
+            {
+                recentlyUsedAnomalies.Clear();
+                availableIndices.Clear();
+                for (int i = 0; i < anomalies.Count; i++) availableIndices.Add(i);
+            }
+
             List<int> chosenIndices = new List<int>();
 
-            if (forceNpc && npcGroupIndex != -1) { chosenIndices.Add(npcGroupIndex); availableIndices.Remove(npcGroupIndex); numToSpawn--; }
-            for (int i = 0; i < numToSpawn; i++) { if (availableIndices.Count == 0) break; int rnd = Random.Range(0, availableIndices.Count); chosenIndices.Add(availableIndices[rnd]); availableIndices.RemoveAt(rnd); }
+            if (forceNpc && npcGroupIndex != -1) 
+            { 
+                chosenIndices.Add(npcGroupIndex); 
+                availableIndices.Remove(npcGroupIndex); 
+                recentlyUsedAnomalies.Add(npcGroupIndex); // Masukkan NPC ke ingatan
+                numToSpawn--; 
+            }
 
+            for (int i = 0; i < numToSpawn; i++) 
+            { 
+                if (availableIndices.Count == 0) break; 
+                
+                int rnd = Random.Range(0, availableIndices.Count); 
+                int chosenId = availableIndices[rnd];
+                
+                chosenIndices.Add(chosenId); 
+                recentlyUsedAnomalies.Add(chosenId); // Masukkan barang terpilih ke ingatan
+                
+                availableIndices.RemoveAt(rnd); 
+            }
+
+            // --- TERAPKAN KE SCENE ---
             for (int i = 0; i < anomalies.Count; i++)
             {
                 if (chosenIndices.Contains(i))
