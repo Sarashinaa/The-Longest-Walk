@@ -33,6 +33,29 @@ public class PlayerMovement : MonoBehaviour
 
         // --- LOGIKA NORMAL (Saat Game Berjalan) ---
         float moveInput = Input.GetAxisRaw("Horizontal");
+
+        // Timpa dengan input layar sentuh jika dimainkan di HP
+        if (Input.touchCount > 0)
+        {
+            bool isLeftPressed = false;
+            bool isRightPressed = false;
+
+            foreach (Touch touch in Input.touches)
+            {
+                if (touch.position.x < Screen.width / 2f) 
+                    isLeftPressed = true;
+                else 
+                    isRightPressed = true;
+            }
+
+            if (isLeftPressed && !isRightPressed) 
+                moveInput = -1f; 
+            else if (isRightPressed && !isLeftPressed) 
+                moveInput = 1f;  
+            else if (isLeftPressed && isRightPressed) 
+                moveInput = 0f;  
+        }
+
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
 
         bool isWalking = moveInput != 0;
