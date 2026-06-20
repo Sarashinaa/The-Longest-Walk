@@ -8061,8 +8061,8 @@ MonoBehaviour:
   - namaBarang: NPC
     normalObject: {fileID: 624984221}
     anomalyVariants:
-    - {fileID: 796331627}
     - {fileID: 499201981}
+    - {fileID: 796331627}
     isNPC: 1
     npcSpawnPoint: {x: -9.9, y: -0.77, z: 0}
     normalStartPos: {x: 0, y: 0, z: 0}
