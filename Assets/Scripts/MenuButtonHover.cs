@@ -12,6 +12,14 @@ public class MenuButtonAudio : MonoBehaviour, ISelectHandler, IDeselectHandler, 
         if (cursorArrow != null) cursorArrow.SetActive(false);
     }
 
+    // --- FITUR BARU: Sapu Jagat ---
+    // Dipanggil otomatis oleh Unity saat tombol/panel ini dimatikan (SetActive(false))
+    // Ini mencegah bug panah nyangkut saat pindah menu!
+    private void OnDisable()
+    {
+        HideCursor();
+    }
+
     // Terpanggil saat tombol DIPILIH (Keyboard atau Mouse masuk)
     public void OnSelect(BaseEventData eventData)
     {
@@ -30,11 +38,9 @@ public class MenuButtonAudio : MonoBehaviour, ISelectHandler, IDeselectHandler, 
         EventSystem.current.SetSelectedGameObject(this.gameObject);
     }
 
-    // --- FITUR BARU: Terpanggil saat MOUSE PERGI meninggalkan tombol ---
+    // Terpanggil saat MOUSE PERGI meninggalkan tombol
     public void OnPointerExit(PointerEventData eventData)
     {
-        // Jika mouse pergi, kita hapus status "Terpilih" dari EventSystem
-        // Ini akan otomatis memicu fungsi OnDeselect() di atas dan menyembunyikan panah
         if (EventSystem.current.currentSelectedGameObject == this.gameObject)
         {
             EventSystem.current.SetSelectedGameObject(null);
@@ -47,7 +53,11 @@ public class MenuButtonAudio : MonoBehaviour, ISelectHandler, IDeselectHandler, 
 
         if (Time.timeSinceLevelLoad > 0.2f && AudioManager.Instance != null && AudioManager.Instance.sfxMenu != null)
         {
-            AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxMenu);
+            // Mencegah error kalau audio dimainkan saat objek sedang mati
+            if (gameObject.activeInHierarchy)
+            {
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxMenu);
+            }
         }
     }
 
